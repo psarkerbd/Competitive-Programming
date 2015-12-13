@@ -1,0 +1,154 @@
+/// Header file begin
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <map>
+#include <string>
+#include <vector>
+#include <cmath>
+#include <cctype>
+#include <sstream>
+#include <set>
+#include <list>
+#include <stack>
+#include<utility>
+#include <queue>
+#include <algorithm>
+/// End
+//..........
+/// Macro
+#define sf scanf
+#define pf printf
+#define sfint(a,b) scanf("%d %d",&a,&b)
+#define sfl(a,b) scanf("%ld %ld",&a,&b)
+#define sfll(a,b) scanf("%lld %lld",&a,&b)
+#define sfd(a,b) scanf("%lf %lf",&a,&b)
+#define sff(a,b) scanf("%f %f",&a,&b)
+#define lp1(i,n) for(i=0;i<n;i++)
+#define lp2(i,n) for(i=1;i<=n;i++)
+#define mem(c,v) memset(c,v,sizeof(c))
+#define cp(a) cout<<" "<<a<<" "<<endl
+#define nl puts("")
+#define sq(x) ((x)*(x))
+#define all(x) x.begin(),x.end()
+#define sz size()
+#define gc getchar()
+#define pb push_back
+/// End.........
+
+/// Size
+#define mx7 20000100
+#define mx6 1500000
+#define mx5 100005
+#define mx4 1000100
+#define inf 1<<30
+#define fix 9999  //infinity value
+#define eps 1e-9
+#define mx (65540)
+#define mod 1000000007
+#define pi acos(-1.0)
+
+/// Macros for Graph
+
+#define white 0
+#define gray 1
+#define black -1
+#define nil -2
+
+using namespace std;
+//..................................................................................................................
+typedef long long LL;
+typedef long L;
+typedef unsigned long long ull;
+typedef unsigned long ul;
+typedef unsigned int ui;
+typedef pair<int, int> pii;
+
+template<class T> T gcd(T a, T b ) {return b<=0?a:gcd(b,a%b);}
+template<class T> T large(T a, T b ) {return a>b?a:b;}
+template<class T> T small(T a, T b ) {return a<b?a:b;}
+template<class T> T diffrnce(T a, T b) {return a-b<0?b-a:a-b;}
+
+int input[100],sw;
+
+void Merge(int p, int q, int r)
+{
+    int n1 = q-p+1;
+    int n2 = r-q;
+
+    int left[n1+1],right[n2+1];
+
+    for(int i=0;i<n1;i++)
+    {
+        left[i] = input[p+i];
+    }
+
+    for(int j=0;j<n2;j++)
+    {
+        right[j]=input[q+j+1];
+    }
+
+    left[n1]=fix;
+    right[n2]=fix;
+
+    int i=0,j=0;
+
+    for(int k=p;k<=r;k++)
+    {
+        if(left[i] <= right[j])
+        {
+            input[k] = left[i];
+            i++;
+        }
+
+        else
+        {
+            input[k] = right[j];
+            j++;
+
+            sw+=n1 - i;
+        }
+
+        //cout << sw << " ";
+    }
+
+    //cout << "Swap : " << sw << endl;
+}
+
+void Merge_sort(int p, int r)
+{
+    int q;
+
+    if(p < r)
+    {
+        q = (int)floor((p+r) / 2.0);
+
+        Merge_sort(p,q);
+        Merge_sort(q+1,r);
+        Merge(p,q,r);
+    }
+}
+
+int main()
+{
+    int n;
+    cin >> n;
+
+    for(int i=0;i<n;i++)
+    {
+        cin >> input[i];
+    }
+
+    sw=0;
+
+    Merge_sort(0,n-1);
+
+    for(int i=0;i<n;i++)
+    {
+        cout << input[i] << " ";
+    }
+
+    cout << "Swap : " << sw << endl;
+
+    return 0;
+}
