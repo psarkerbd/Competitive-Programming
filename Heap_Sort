@@ -1,0 +1,69 @@
+#include <bits/stdc++.h>
+using namespace std;
+vector<long>arr;
+long heap_size;
+long max_heapify(long i)
+{
+    long left,right;
+    left=i*2;
+    right=(i*2)+1;
+
+    long largest,temp;
+    if(left<heap_size && arr[left]>arr[i])
+        largest=left;
+    else
+        largest=i;
+    if(right<heap_size && arr[right]>arr[largest])
+        largest=right;
+    if(largest!=i)
+    {
+        temp=arr[i];
+        arr[i]=arr[largest];
+        arr[largest]=temp;
+        max_heapify(largest);
+    }
+}
+
+
+
+void build_max_heap()
+{
+    heap_size=arr.size();
+    for(long i=(arr.size()-1/2);i>=0;i--)
+        max_heapify(i);
+}
+
+
+void heap_sort()
+{
+    long temp;
+    build_max_heap();
+    for(long i=arr.size()-1;i>=1;i--)
+    {
+        temp=arr[0];
+        arr[0]=arr[i];
+        arr[i]=temp;
+        heap_size--;
+        max_heapify(0);
+    }
+}
+
+
+
+
+int main()
+{
+    cin>>heap_size;
+    long x;
+    for(long i=0;i<heap_size;i++)
+    {
+        cin>>x;
+        arr.push_back(x);
+    }
+
+    //
+    heap_sort();
+    for(long j=0;j<arr.size();j++)
+        cout<<arr[j]<<" "<<endl;
+}
+
