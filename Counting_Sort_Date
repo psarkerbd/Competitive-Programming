@@ -1,0 +1,125 @@
+#include <bits/stdc++.h>
+using namespace std;
+struct date
+{
+    long d;   //id
+    long m;  //string s
+    long y;     //mark
+};
+void counting_sort_date(long n,date arr[],date brr[])
+{
+    /**************************/
+    long k=arr[0].d;
+    for(long i=0;i<n;i++)
+        if(k<arr[i].d)
+            k=arr[i].d;
+    /***************************/   //k=100;
+
+    long crr[k+20];
+    for(long i=0;i<=k;i++)
+    {
+        crr[i]=0;
+    }
+
+    for(long i=0;i<n;i++)
+    {
+        crr[arr[i].d]=crr[arr[i].d]+1;            //replace d with mark
+    }
+    for(long j=1;j<=k;j++)
+    {
+        crr[j]=crr[j]+crr[j-1];
+    }
+    //cout<<k;
+    for(long j=n-1;j>=0;j--)
+    {
+        brr[crr[arr[j].d]-1]=arr[j];
+        crr[arr[j].d]=crr[arr[j].d]-1;
+    }
+    //cout<<k;
+}
+void counting_sort_month(long n,date arr[],date brr[])
+{
+    long k=arr[0].m;
+    for(long i=0;i<n;i++)
+        if(k<arr[i].m)
+            k=arr[i].m;
+
+
+    long crr[k+20];
+    for(long i=0;i<=k;i++)
+    {
+        crr[i]=0;
+    }
+
+    for(long i=0;i<n;i++)
+    {
+        crr[arr[i].m]=crr[arr[i].m]+1;
+    }
+    for(long j=1;j<=k;j++)
+    {
+        crr[j]=crr[j]+crr[j-1];
+    }
+    //cout<<k;
+    for(long j=n-1;j>=0;j--)
+    {
+        brr[crr[arr[j].m]-1]=arr[j];
+        crr[arr[j].m]=crr[arr[j].m]-1;
+    }
+    //cout<<k;
+}
+
+void counting_sort_year(long n,date arr[],date brr[])
+{
+    long k=arr[0].y;
+    for(long i=0;i<n;i++)
+        if(k<arr[i].y)
+            k=arr[i].y;
+
+
+    long crr[k+20];
+    for(long i=0;i<=k;i++)
+    {
+        crr[i]=0;
+    }
+
+    for(long i=0;i<n;i++)
+    {
+        crr[arr[i].y]=crr[arr[i].y]+1;
+    }
+    for(long j=1;j<=k;j++)
+    {
+        crr[j]=crr[j]+crr[j-1];
+    }
+    //cout<<k;
+    for(long j=n-1;j>=0;j--)
+    {
+        brr[crr[arr[j].y]-1]=arr[j];
+        crr[arr[j].y]=crr[arr[j].y]-1;
+    }
+    //cout<<k;
+}
+int main()
+{
+
+    long n;
+    cout<<"Enter number of date: "<<endl;
+    cin>>n;
+    date arr[n],drr[n],mrr[n],yrr[n];
+    cout<<"Enter "<<n<<" dates in DD MM YYYY format: "<<endl;
+    for(long i=0;i<n;i++)
+    {
+        cin>>arr[i].d;
+        cin>>arr[i].m;
+        cin>>arr[i].y;
+    }
+    counting_sort_date(n,arr,drr);  //counting_sort_mark(structure size, name, result structure);
+    counting_sort_month(n,drr,mrr);
+    counting_sort_year(n,mrr,yrr);
+    cout<<"Output of "<<n<<" dates in DD MM YYYY format: "<<endl;
+    for(long i=0;i<n;i++)        //reverse print i=n-1;i>=0;i--
+    {
+        cout<<yrr[i].d<<" ";       //result structure[index].id,  .name,     .mark
+        cout<<yrr[i].m<<" ";
+        cout<<yrr[i].y<<" "<<endl;
+    }
+}
