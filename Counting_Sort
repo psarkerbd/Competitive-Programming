@@ -1,0 +1,44 @@
+#include <bits/stdc++.h>
+using namespace std;
+vector<long>arr;
+vector<long>brr;
+void counting_sort()
+{
+    long k=*max_element(arr.begin(),arr.end());
+    vector<long>crr;
+    for(long i=0;i<=k;i++)
+    {
+        crr.push_back(0);
+    }
+
+    for(long i=0;i<arr.size();i++)
+    {
+        crr[arr[i]]=crr[arr[i]]+1;
+    }
+    for(long j=1;j<=k;j++)
+    {
+        crr[j]=crr[j]+crr[j-1];
+    }
+
+    for(long j=arr.size()-1;j>=0;j--)
+    {
+        brr[crr[arr[j]]-1]=arr[j];
+        crr[arr[j]]=crr[arr[j]]-1;
+    }
+}
+int main()
+{
+    long n,x,m;
+    cin>>n;
+    for(long i=0;i<n;i++)
+    {
+        cin>>x;
+        arr.push_back(x);
+        brr.push_back(0);
+    }
+    counting_sort();
+    for(long i=0;i<arr.size();i++)
+    {
+        cout<<brr[i]<<" ";
+    }
+}
