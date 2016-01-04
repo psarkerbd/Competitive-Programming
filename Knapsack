@@ -14,38 +14,8 @@
 #include<utility>
 #include <queue>
 #include <algorithm>
-/// End
-//..........
-/// Macro
-#define sf scanf
 #define pf printf
-#define sfint(a,b) scanf("%d %d",&a,&b)
-#define sfl(a,b) scanf("%ld %ld",&a,&b)
-#define sfll(a,b) scanf("%lld %lld",&a,&b)
-#define sfd(a,b) scanf("%lf %lf",&a,&b)
-#define sff(a,b) scanf("%f %f",&a,&b)
-#define lp1(i,n) for(i=0;i<n;i++)
-#define lp2(i,n) for(i=1;i<=n;i++)
-#define mem(c,v) memset(c,v,sizeof(c))
-#define cp(a) cout<<" "<<a<<" "<<endl
-#define nl puts("")
-#define sq(x) ((x)*(x))
-#define all(x) x.begin(),x.end()
-#define sz size()
-#define gc getchar()
-#define pb push_back
-/// End.........
-
-/// Size
-#define mx7 20000100
-#define mx6 1500000
-#define mx5 100005
-#define mx4 1000100
-#define inf 1<<30                                           //infinity value
-#define eps 1e-9
-#define mx (65540)
-#define mod 1000000007
-#define pi acos(-1.0)
+#define sf scanf
 
 /// Macros for Graph
 
@@ -55,95 +25,99 @@
 #define nil -2
 
 using namespace std;
-//..................................................................................................................
-typedef long long LL;
-typedef long L;
-typedef unsigned long long ull;
-typedef unsigned long ul;
-typedef unsigned int ui;
-typedef pair<int, int> pii;
 
-template<class T> T gcd(T a, T b ) {return b<=0?a:gcd(b,a%b);}
-template<class T> T large(T a, T b ) {return a>b?a:b;}
-template<class T> T small(T a, T b ) {return a<b?a:b;}
-template<class T> T diffrnce(T a, T b) {return a-b<0?b-a:a-b;}
+int dp[100][100],backtrack[100][100];
 
 struct my
 {
-    int weight,price;
-    double perunit;
+    int weight;
+    int price;
 };
+
+my ar[100];
+
+void print_element(int i, int j)
+{
+    if(dp[i][j] == 0)
+    {
+        return;
+    }
+
+    if(backtrack[i][j] == 1)
+    {
+        print_element(i-1,j-ar[i].weight);
+        pf("%d ",i);
+    }
+
+    else
+    {
+        print_element(i-1,j);
+    }
+}
+
+
 
 int main()
 {
-    int mxweight,n;
-    my ar[100],temp;
+//    mem(dp,0);
+    int maximum_weight, item;
 
-    cout << "Enter Maximum Weight: ";
-    cin >> mxweight;
+    //cin >> maximum_weight >> item;
+    pf("Enter maximum weight and no. of item: ");
+    sf("%d %d",&maximum_weight,&item);
 
-    cout << "\n Enter number of input: ";
-    cin >> n;
+        pf("Enter weight and their Price:\n");
 
-    for(int i=0;i<n;i++)
-    {
-        cout << i+1 << ". Enter Weight and Price: ";
-        cin >> ar[i].weight >> ar[i].price;
-
-        ar[i].perunit = 1.00 * (ar[i].price / ar[i].weight);
-    }
-
-//    for(int i=0;i<n;i++)
-//    {
-//        cout << ar[i].weight << " " << ar[i].price << " " << ar[i].perunit << endl;
-//    }
-
-    // Bubble sort with descending order
-
-    for(int i=0;i<n-1;i++)
-    {
-        for(int j=0;j<n-1-i;j++)
+        for(int i=1;i<=item;i++)
         {
-            if(ar[j].perunit < ar[j+1].perunit)
+            cin >> ar[i].weight >> ar[i].price;
+        }
+
+        for(int i=1;i<=item;i++)
+        {
+            for(int j=1;j<=maximum_weight;j++)
             {
-                temp = ar[j];
-                ar[j] = ar[j+1];
-                ar[j+1] = temp;
+                if(ar[i].weight <= j)
+                {
+                    //dp[i][j] = max(dp[i-1][j], (ar[i].price + (dp[i-1][j-ar[i].weight])));
+                    int a=dp[i-1][j] , b = ar[i].price + (dp[i-1][j-ar[i].weight]);
+
+                    if(a>=b)
+                    {
+                        dp[i][j] = a;
+                        backtrack[i][j] = 0;
+                    }
+
+                    else
+                    {
+                        dp[i][j] = b;
+                        backtrack[i][j] = 1;
+                    }
+                }
+
+                else
+                {
+                    dp[i][j] = dp[i-1][j];
+                }
+            }
+        }
+
+        pf("Knapsack Matrix:\n");
+
+        for(int i=0;i<=item;i++)
+        {
+            for(int j=0;j<=maximum_weight;j++)
+            {
+                cout << dp[i][j] << " ";
             }
 
-            else if(ar[j].perunit == ar[j+1].perunit and ar[j].weight > ar[j+1].weight)
-            {
-                temp=ar[j];
-                ar[j]=ar[j+1];
-                ar[j+1] = temp;
-            }
-        }
-    }
-
-//    for(int i=0;i<n;i++)
-//    {
-//        cout << ar[i].weight << " " << ar[i].price << " " << ar[i].perunit << endl;
-//    }
-
-    double knap = 0.00;
-
-    for(int i=0;i<n;i++)
-    {
-        if(mxweight >= ar[i].weight)
-        {
-            knap+=(ar[i].weight * ar[i].perunit) * 1.00;
-            //cout << knap << endl;
-            mxweight-=ar[i].weight;
+            pf("\n");
         }
 
-        else
-        {
-            knap+=(ar[i].perunit * mxweight)*1.00;
-            break;
-        }
-    }
+        pf("Answer: %d\nElements are: ",dp[item][maximum_weight]);
 
-    cout << "\n>>Knapsack Solution " << endl << knap << "tk" << endl;
+        print_element(item,maximum_weight);
+    //}
 
     return 0;
 }
