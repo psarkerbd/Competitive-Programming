@@ -1,0 +1,37 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int dp[100];
+
+int fib(int n)
+{
+    if(n==1)
+    return n;
+
+    else if(dp[n]!=-1) return dp[n];
+
+    else
+    {
+        return dp[n]=fib(n-1)+fib(n-2);
+    }
+}
+
+
+int main()
+{
+    int i;
+
+    memset(dp,-1,sizeof(dp));
+
+    int n;
+    while(cin >> n)
+    {
+
+    int r=fib(n);
+
+    cout << r << endl;
+
+    }
+
+    return 0;
+}
