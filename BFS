@@ -1,0 +1,143 @@
+/// Header file begin
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <map>
+#include <string>
+#include <vector>
+#include <cmath>
+#include <cctype>
+#include <sstream>
+#include <set>
+#include <list>
+#include <stack>
+#include<utility>
+#include <queue>
+#include <algorithm>
+/// End
+
+/// Macros for Graph
+
+#define white 1
+#define gray 2
+#define black 3
+#define nil 0
+#define inf 999
+#define pf printf
+#define sf scanf
+#define nl puts("")
+
+using namespace std;
+/***************/
+
+int node,edge,G[100][100],color[100],level[100],par[100];
+
+void BFS(int s,int desti)
+{
+    int i,u;
+    for(i=1;i<=100;i++)
+    {
+        color[i]=white;
+        level[i]=inf;
+        par[i]=nil;
+    }
+
+    color[s]=gray;
+    level[s]=0;
+    par[s]=nil;
+
+    queue<int>qu;
+    qu.push(s);// enqueue
+    while(!qu.empty())
+    {
+        int ver;
+        u=qu.front();
+        qu.pop(); 		// dequeue
+        for(ver=1;ver<=node;ver++)
+        {
+            if(G[u][ver]==1)
+            {
+                if(color[ver]==white)
+                {
+                    color[ver]=2;
+                    level[ver]=level[u]+1;
+                    par[ver]=u;
+                     qu.push(ver);
+                }
+            }
+        }
+
+        color[ver]=3;
+    }
+
+    //for(int i=1;i<=node;i++)cout << par[i] << " ";
+
+    //print_path(s,desti);
+}
+
+void print_path(int source, int destination)
+{
+    if(destination == source)
+    {
+        pf("%d ",source);
+    }
+
+    else if(par[destination] == nil)
+    {
+        pf("No path here...");
+    }
+
+    else
+    {
+        print_path(source,par[destination]);
+        pf("%d ",destination);
+    }
+}
+
+
+int main()
+{
+    //freopen("input.txt","r",stdin);
+
+    pf("Enter no of Node: ");
+    sf("%d",&node);
+
+    pf("Enter no of Edge: ");
+    sf("%d",&edge);
+
+    for(int i=0;i<edge;i++)
+    {
+        int x,y;
+        sf("%d %d",&x,&y);
+
+        G[x][y] = 1;
+        G[y][x] = 1; // Comment one of that two for any directed Graph
+    }
+
+    pf("Adjacency List: \n");
+
+    for(int i=1;i<=node;i++)
+    {
+        for(int j=1;j<=node;j++)
+        {
+            pf("%d ",G[i][j]);
+        }
+
+        nl;
+    }
+
+    puts("==========");
+
+    int src,desti;
+
+    pf("Enter Source and Destination: ");
+    sf("%d %d",&src,&desti);
+    pf("Source %d to Destination %d:\n",src,desti);
+
+    BFS(src,desti);
+
+    pf("Path: ");
+    print_path(src,desti);
+
+    return 0;
+}
