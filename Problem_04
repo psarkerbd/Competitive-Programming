@@ -1,0 +1,91 @@
+// Uva Twin_Tower
+
+// Accepted
+
+#include<bits/stdc++.h>
+
+#define pf printf
+#define sf scanf
+#define N 10001
+#define nl puts("")
+#define up 1
+#define left 2
+#define diag 3
+
+using namespace std;
+
+typedef long long LL;
+typedef vector<long long>vll;
+
+LL c[N+5][N+5],b[N+5][N+5],x[N+5],y[N+5],tc=0;
+
+void build_LCS(int m, int n)
+{
+    int i,j;
+
+    for(i=1;i<=m;i++)
+    {
+        for(j=1;j<=n;j++)
+        {
+            if(x[i-1] == y[j-1])
+            {
+                c[i][j] = c[i-1][j-1]+1;
+                b[i][j] = diag;
+            }
+
+            else if(c[i-1][j] >= c[i][j-1])
+            {
+                c[i][j] = c[i-1][j];
+                b[i][j] = up;
+            }
+
+            else
+            {
+                c[i][j] = c[i][j-1];
+                b[i][j] = left;
+            }
+        }
+    }
+
+//    for(i=0;i<=m;i++)
+//    {
+//        for(j=0;j<=n;j++)
+//        {
+//            pf("%lld ",c[i][j]);
+//        }
+//
+//        nl;
+//    }
+
+    pf("Twin Towers #%lld\nNumber of Tiles : %lld\n\n",++tc,c[m][n]);
+}
+
+int main()
+{
+    int n1,n2;
+
+    //freopen("input.txt","r",stdin);
+
+    while(~sf("%d %d",&n1,&n2))
+    {
+        if(n1 == 0 and n2 == 0) break;
+
+        for(int i=0;i<n1;i++)
+        {
+            LL val;
+            sf("%lld",&val);
+            x[i]=val;
+        }
+
+        for(int i=0;i<n2;i++)
+        {
+            LL val;
+            sf("%lld",&val);
+            y[i]=val;
+        }
+
+        build_LCS(n1,n2);
+    }
+
+    return 0;
+}
