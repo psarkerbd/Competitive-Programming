@@ -51,8 +51,32 @@ void build_LCS(int m, int n)
 //        nl;
 //    }
 
-        cout << c[x.size()][y.size()];
+        cout << c[m][n];
 }
+
+//void display(int i, int j)
+//{
+//    if(i==0 or j==0)
+//    {
+//        return;
+//    }
+//
+//    else if(b[i][j]==diag)
+//    {
+//        display(i-1,j-1);
+//        cout << x[i-1]<< " ";
+//    }
+//
+//    else if(b[i][j]==up)
+//    {
+//        display(i-1,j);
+//    }
+//
+//    else
+//    {
+//        display(i,j-1);
+//    }
+//}
 
 int main()
 {
@@ -85,7 +109,6 @@ int main()
             b=d+1;
 
             x.push_back(s);
-            //x.push_back("");
             s="";
         }
     }
@@ -121,4 +144,7 @@ int main()
 //    cout << x.size() << " " << y.size(); nl;
 
     build_LCS(x.size(),y.size());
+    //display(x.size(),y.size());
+
+    return 0;
 }
