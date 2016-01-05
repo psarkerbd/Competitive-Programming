@@ -1,0 +1,147 @@
+/// Header file begin
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <map>
+#include <string>
+#include <vector>
+#include <cmath>
+#include <cctype>
+#include <sstream>
+#include <set>
+#include <list>
+#include <stack>
+#include<utility>
+#include <queue>
+#include <algorithm>
+
+/// Macros for Graph
+
+#define white 1
+#define gray 2
+#define black 3
+#define nil 0
+#define nl puts("")
+#define sf scanf
+#define pf printf
+
+using namespace std;
+/***************/
+
+
+int node,edge,G[100][100],color[100],par[100],d[100],finish[100],time;
+
+void dfs();
+void dfs_visit(int u);
+void print_path(int s, int v);
+
+int main()
+{
+    //freopen("input.txt","r",stdin);
+    pf("Enter no. of Node and Edge:(for directed graph) ");
+    sf("%d %d",&node,&edge);
+
+    for(int i=1;i<=edge;i++)
+    {
+        int x,y;
+        sf("%d %d",&x,&y);
+
+        G[x][y] = 1;
+        //G[y][x] = 1;
+    }
+
+    pf("Adjacency Matrix: \n");
+
+    for(int i=1;i<=node;i++)
+    {
+        for(int j=1;j<=node;j++)
+        {
+            pf("%d ",G[i][j]);
+        }
+
+        nl;
+    }
+
+    int start,endd;
+
+    pf("Enter start and end node: ");
+    sf("%d %d",&start,&endd);
+
+    dfs();
+
+    pf("Parent Array:\n");
+
+    for(int i=1;i<=node;i++)
+    {
+        pf("%d ",par[i]);
+    }
+
+    pf("\nPath:\n");
+    print_path(start,endd);
+}
+
+void dfs()
+{
+    int u;
+
+    for(int u=1;u<=node;u++)
+    {
+        color[u] = white;
+        par[u] = nil;
+    }
+
+    time = 0;
+
+    for(u=1;u<=node;u++)
+    {
+        if(color[u] == white)
+        {
+            dfs_visit(u);
+        }
+    }
+}
+
+void dfs_visit(int u)
+{
+    time = time+1 ;
+    int v;
+
+    d[u] = time;
+
+    color[u] = gray;
+
+    for(v=1;v<=node;v++)
+    {
+        if(G[u][v]==1)
+        {
+            if(color[v] == white)
+            {
+                par[v] = u;
+                dfs_visit(v);
+            }
+        }
+    }
+
+    color[u] = black;
+    time++;
+    finish[u] = time;
+}
+
+void print_path(int s, int v)
+{
+    if(v == s)
+    {
+        pf("%d ",s);
+    }
+
+    else if(par[v] == nil)
+    {
+        pf("no path...");
+    }
+
+    else
+    {
+        print_path(s,par[v]);
+        pf("%d ",v);
+    }
+}
