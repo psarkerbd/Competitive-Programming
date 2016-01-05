@@ -1,0 +1,124 @@
+#include<bits/stdc++.h>
+
+#define pf printf
+#define sf scanf
+#define N 10001
+#define nl puts("")
+#define up 1
+#define left 2
+#define diag 3
+
+using namespace std;
+
+typedef vector<string>vs;
+
+vs x,y,lcs;
+int c[100][100],b[100][100],ans;
+
+void build_LCS(int m, int n)
+{
+    for(int i=1;i<=m;i++)
+    {
+        for(int j=1;j<=n;j++)
+        {
+            if(x[i-1] == y[j-1])
+            {
+                c[i][j] = c[i-1][j-1]+1;
+                b[i][j] = diag;
+            }
+
+            else if(c[i-1][j] >= c[i][j-1])
+            {
+                c[i][j] = c[i-1][j];
+                b[i][j] = up;
+            }
+
+            else
+            {
+                c[i][j] = c[i][j-1];
+                b[i][j] = left;
+            }
+        }
+    }
+
+//    for(int i=0;i<=m;i++)
+//    {
+//        for(int j=0;j<=n;j++)
+//        {
+//            cout << c[i][j] << " ";
+//        }
+//
+//        nl;
+//    }
+
+        cout << c[x.size()][y.size()];
+}
+
+int main()
+{
+    //freopen("input.txt","r",stdin);
+
+    string s="",ms,s1,s2;
+    char a[100],z[100];
+
+    getline(cin,s1);
+    getline(cin,s2);
+
+    int d,b=0;
+
+    for(int i=0;i<=s1.size();i++)
+    {
+        if(s1[i]==' ' or s1[i]==NULL)
+        {
+            d=i;
+            s="";
+
+            for(int j=b;j<d;j++)
+            {
+                char ch=s1[j];
+                stringstream ss;
+                ss<<ch;
+                ss >> ms;
+                s+=ms;
+            }
+
+            b=d+1;
+
+            x.push_back(s);
+            //x.push_back("");
+            s="";
+        }
+    }
+
+    //for(int i=0;i<x.size();i++)cout << x[i]; nl;
+
+    b=0;
+    s="";
+
+    for(int i=0;i<=s2.size();i++)
+    {
+        if(s2[i]==' ' or s2[i]==NULL)
+        {
+            d=i;
+            s="";
+
+            for(int j=b;j<d;j++)
+            {
+                char ch=s2[j];
+                stringstream ss;
+                ss << ch;
+                ss >> ms;
+                s+=ms;
+            }
+
+            b=d+1;
+            y.push_back(s);
+            s="";
+        }
+    }
+
+//    for(int i=0;i<y.size();i++)cout << y[i]; nl;
+//    cout << x.size() << " " << y.size(); nl;
+
+    build_LCS(x.size(),y.size());
+}
