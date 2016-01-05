@@ -1,0 +1,119 @@
+#include<bits/stdc++.h>
+
+#define pf printf
+#define sf scanf
+#define N 10001
+#define nl puts("")
+#define white 1
+#define gray 2
+#define black 3
+#define nil 0
+
+using namespace std;
+
+int node,t,color[100],G[100][100],dist[100],finish[100],par[100];
+
+void dfs();
+void dfs_visit(int u);
+
+int main()
+{
+    //freopen("input.txt","r",stdin);
+    int i=1,j,cnt=0;
+    cout << "Number of PC: ";
+    cin >> node;
+
+    while(i<=node)
+    {
+        cout << "PC"<<i<<" connected with: ";
+
+        for(j=1;j<=node;j++)
+        {
+            int x;
+            cin >> x;
+
+            if(x == -1) break;
+
+            G[i][x] = 1;
+            G[x][i] = 1;
+        }
+
+        i++;
+    }
+
+//    for(i=1;i<=node;i++)
+//    {
+//        for(j=1;j<=node;j++)
+//        {
+//            cout << G[i][j] << " ";
+//        }
+//
+//        cout << "\n";
+//    }
+
+    dfs();
+
+//    for(i=1;i<=node;i++)
+//    {
+//        cout << par[i] << " ";
+//    }
+
+     for(i=1;i<=node;i++)
+     {
+         if(!par[i])
+         {
+             cnt++;
+         }
+     }
+
+     cout<< "Number of LAN: " << cnt << endl;
+
+    return 0;
+}
+
+void dfs()
+{
+    int u;
+
+    for(u=1;u<=node;u++)
+    {
+        color[u] = white;
+        par[u] = nil;
+    }
+
+    t = 0;
+
+    for(u=1;u<=node;u++)
+    {
+        if(color[u] == white)
+        {
+            dfs_visit(u);
+        }
+    }
+}
+
+void dfs_visit(int u)
+{
+    t++;
+
+    dist[u] = t;
+    color[u] = gray;
+
+    int v;
+
+    for(v=1;v<=node;v++)
+    {
+        if(G[u][v]==1)
+        {
+            if(color[v] == white)
+            {
+                par[v] = u;
+                dfs_visit(v);
+            }
+        }
+    }
+
+    color[u] = black;
+    t++;
+    finish[u] = t;
+}
