@@ -1,0 +1,12 @@
+3)
+select count(a.artistId) from SongArtist sa, Artist a where sa.artistId=a.artistId and a.firstName='Taylor' and a.lastName='Swift';
+
+4)
+select albumName from Album a where releaseYear<2010;
+
+5)
+select distinct(country) from Artist;
+
+6)
+
+select sum(runtime) from SongArtist sa, Artist a, Song s where sa.songId=s.songId and sa.artistId=a.artistId and a.firstName='Habib' and a.lastName='Wahid';
