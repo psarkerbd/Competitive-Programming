@@ -1,0 +1,88 @@
+#include<bits/stdc++.h>
+#define N 50800
+using namespace std;
+
+typedef long long LL;
+
+struct my
+{
+    LL s,a,b;
+};
+
+my ar[N];
+int len=0;
+
+bool cmp( my  p, my q)
+{
+    return p.s < q.s;
+}
+
+void allsquare()
+{
+    for(int i=1; i<=223; i++)
+    {
+        for(int j=i+1; j<=223; j++)
+        {
+            ar[len].a = i;
+            ar[len].b = j;
+            ar[len++].s = (i*i) + (j*j);
+        }
+    }
+
+    sort(ar, ar+len, cmp);
+
+    for(int i=0;i<100;i++)cout << ar[i].a << " " << ar[i].b << " " << ar[i].s << "; ";
+}
+
+LL b_search(LL lo, LL hi, LL item)
+{
+    if(lo > hi) return -1;
+
+    LL mid = (lo + hi) / 2;
+
+    if(ar[mid].s == item)
+        return mid;
+
+    if(ar[mid].s > item)
+        return b_search(lo, mid-1, item);
+    else
+        return b_search(mid+1, hi, item);
+}
+
+LL b_ret(LL nm)
+{
+    LL r = b_search(0, len, nm);
+
+    return r;
+}
+
+void solution(LL n)
+{
+    int i;
+    LL df , c, rv, fa, fb, fc, mini=5000;
+
+    for(i=0; i<=223; i++)
+    {
+        c = i*i;
+
+        df = n - c;
+
+        rv = b_ret(df);
+
+        if(ar[rv].s == df)
+        {
+            if(ar[rv].a < mini)
+            {
+                mini = ar[rv];
+
+                fb = ar[rv].b;
+                fc = sqrt(c);
+            }
+        }
+    }
+}
+
+int main()
+{
+    allsquare();
+}
