@@ -19,7 +19,7 @@ bool cmp( my  p, my q)
 
 void allsquare()
 {
-    for(int i=1; i<=223; i++)
+    for(int i=0; i<=223; i++)
     {
         for(int j=i+1; j<=223; j++)
         {
@@ -61,7 +61,9 @@ void solution(LL n)
     int i;
     LL df , c, rv, fa, fb, fc, mini=5000;
 
-    for(i=0; i<=223; i++)
+    bool f=false;
+
+    for(i=2; i<=223; i++)
     {
         c = i*i;
 
@@ -73,16 +75,28 @@ void solution(LL n)
         {
             if(ar[rv].a < mini)
             {
-                mini = ar[rv];
+                f=true;
+
+                mini = ar[rv].a;
 
                 fb = ar[rv].b;
                 fc = sqrt(c);
             }
         }
     }
+
+    cout << mini << " " << fb << " " << fc;
 }
 
 int main()
 {
-    allsquare();
+    allsquare(); cout << "\n";
+    int n;
+    while(cin >> n)
+    {
+        solution(n);
+        cout << "\n";
+    }
+
+    return 0;
 }
