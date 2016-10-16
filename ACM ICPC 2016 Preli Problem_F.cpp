@@ -36,7 +36,7 @@ int main()
         memset(exe,0,sizeof(exe));
         for(ll i=0;i<q;i++)
         {
-            sc("%ld%ld%ld",&exe[i].l,&exe[i].h,&exe[i].v);
+            sc("%ld%ld%1ld",&exe[i].l,&exe[i].h,&exe[i].v);
         }
 
         sort(exe, exe+q, cmp);
@@ -66,12 +66,12 @@ int main()
             if(arr[i]==0)
                 arr[i]=maxx;
         //cout<<"Case "<<test++<<": ";
-        pf("Case %lld: ", test++);
+        pf("Case %ld: ", test++);
         for(ll i=0;i<n-1;i++)
             //cout<<arr[i]<<" ";
-            pf("%lld ", arr[i]);
+            pf("%ld ", arr[i]);
         //cout<<arr[n-1]<<endl;
-        pf("%lld\n", arr[n-1]);
+        pf("%ld\n", arr[n-1]);
     }
     return 0;
 }
