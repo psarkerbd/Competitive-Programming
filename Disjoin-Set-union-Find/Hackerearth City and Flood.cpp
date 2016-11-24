@@ -162,4 +162,4 @@ int main()
     return 0;
 }
 
-//************************************* End of Stand Solution
+//************************************* End of Standard Solution
