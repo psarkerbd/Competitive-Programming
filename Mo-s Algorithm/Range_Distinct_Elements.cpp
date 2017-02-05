@@ -1,19 +1,23 @@
 #include<bits/stdc++.h>
-
 using namespace std;
-
-typedef map<int, int>mpii;
 
 const int high = 100;
 
-int ar[high] , ans[high] , block=0;
-
- mpii mp;
+typedef map<int,int>mpii;
 
 struct Query
 {
     int L , R , i;
 }q[high];
+
+struct output
+{
+    int L , R , in;
+}ans[high];
+
+int ar[high] , block=0 , answer=0;
+
+mpii mp;
 
 bool cmp(Query x , Query y)
 {
@@ -22,77 +26,102 @@ bool cmp(Query x , Query y)
     return x.R < y.R;
 }
 
-void results(int n , int m)
+void add(int x)
+{
+    mp[ar[x]]++;
+
+    if(mp[ar[x]] == 1) answer++;
+}
+
+void rmoving(int x)
+{
+    mp[ar[x]]--;
+
+    if(mp[ar[x]] == 0) answer--;
+}
+
+void Results(int n , int m)
 {
     block = (int)sqrt(n);
 
-    sort(q, q+m , cmp);
+    sort(q , q+m , cmp);
 
-    mp.clear();
+    int currL = 0 , currR = 0;
 
-    int currL=0 , currR=0, tmp=0 , answer=0;
+    answer = 0;
 
     for(int i=0; i<m; i++)
     {
         int L = q[i].L , R = q[i].R;
 
-        mp.clear();
-        //answer = 0;
+        //mp.clear();
 
+        // Removing
         while(currL < L)
         {
-            mp[ar[currL-1]]++;
-
-            if(mp[ar[currL-1]] == 1) answer++;
-
+            rmoving(currL);
             currL++;
         }
 
+        //adding
         while(currL > L)
         {
-            mp[ar[currL]]++;
-
-            if(mp[ar[currL]] == 1) answer++;
-
+            add(currL-1);
             currL--;
         }
 
         while(currR <= R)
         {
-            mp[ar[currR]]++;
-
-            if(mp[ar[currR]] == 1) answer++;
-
+            add(currR);
             currR++;
         }
 
         while(currR > R+1)
         {
-            mp[ar[currR-1]]++;
-
-            if(mp[ar[currR-1]] == 1) answer++;
-
+            rmoving(currR-1);
             currR--;
         }
 
-        tmp = q[i].i;
+        int indx = q[i].i;
 
-        ans[tmp] = answer;
+        //ans[indx] = answer;
+
+        ans[indx].in = answer;
+
+        //answer = 0;
     }
 }
 
 void solution(int m)
 {
-    for(int i=0; i<m; i++) cout << ans[i] << "\n";
+    cout << "Number of Distinct Elements:\n";
+
+    for(int i=0; i<m; i++)
+    {
+        cout << "From " << ans[i].L << " to " << ans[i].R << " = " << ans[i].in << "\n";
+    }
 }
 
 int main()
 {
+    ios_base::sync_with_stdio(0);
+
     int n , i;
+
+    cout << "Number of Elements: ";
 
     while(cin >> n)
     {
-        for(i=0; i<n; i++) cin >> ar[i];
+        mp.clear();
+
+        answer = 0;
+
+        for(i=0; i<n; i++)
+        {
+            cin >> ar[i];
+        }
+
+        cout << "Number of Query: ";
 
         int qry;
         cin >> qry;
@@ -100,13 +129,20 @@ int main()
         for(i=0; i<qry; i++)
         {
             cin >> q[i].L >> q[i].R;
+
             //q[i].L--;
-            //q[i].R;
+            //q[i].R--;
+
             q[i].i = i;
+
+            ans[i].L = q[i].L;
+            ans[i].R = q[i].R;
         }
 
-        results(n , qry);
+        Results(n , qry);
         solution(qry);
+
+        cout << "Number of Elements: ";
     }
 
     return 0;
