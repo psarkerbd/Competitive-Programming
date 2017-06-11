@@ -149,7 +149,7 @@ int main()
     {
         sf("%d %d %d %d", &L , &R, &X , &Y);
 
-        LL res = 0 , ans=0;
+        LL res = 0 , ans=0, expo;
 
         //L--;
         //R--;
@@ -165,16 +165,17 @@ int main()
 
                 for(j=L; j<=R; j++)
                 {
-                    if(br[j] % i == 0)
+                    int num = br[j];
+                    expo = 0;
+
+                    while(num % i == 0)
                     {
-                        if(ar[br[j]] > 0) res += ar[br[j]];
-                        else res += 1;
-
-                        //cout << br[j] << "ar[j] = " << ar[br[j]] << "-" << " res = " << res << "\n";
+                        expo +=1;
+                        num/=i;
                     }
-                }
 
-                ans += res;
+                    ans += expo;
+                }
             }
         }
 
