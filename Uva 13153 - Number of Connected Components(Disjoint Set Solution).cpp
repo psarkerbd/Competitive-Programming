@@ -1,4 +1,10 @@
 // Time: 0.350
+// Accepted
+
+/**
+  *  @Author: Pranta Sarker
+  *
+  **/
 
 #include<bits/stdc++.h>
 using namespace std;
